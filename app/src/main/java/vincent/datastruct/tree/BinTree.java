@@ -100,6 +100,5 @@ public class BinTree {
         System.out.println("");
         System.out.println("后序遍历：");
         postOrderTraverse(root);
-
     }
 }

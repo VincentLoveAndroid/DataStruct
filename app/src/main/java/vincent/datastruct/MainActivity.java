@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 public class MainActivity extends Activity {
 
     @Override

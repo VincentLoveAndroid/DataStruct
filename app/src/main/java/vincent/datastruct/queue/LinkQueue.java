@@ -77,16 +77,17 @@ public class LinkQueue<E> implements QueueInterface<E> {
         return count;
     }
 
-    public static void main(String[] arg0) {
-        LinkQueue<String> queue = new LinkQueue<>();
-        for (int i = 0; i < 100; i++) {
-            queue.add("元素" + i);
-        }
 
-        queue.remove();
-        queue.remove();
-        System.out.println("头元素是 " + queue.peek());
-        System.out.println("队列的大小是" + queue.size());
+    public static void main(String[] arg0) {
+//        LinkQueue<String> queue = new LinkQueue<>();
+//        for (int i = 0; i < 100; i++) {
+//            queue.add("元素" + i);
+//        }
+//
+//        queue.remove();
+//        queue.remove();
+//        System.out.println("头元素是 " + queue.peek());
+//        System.out.println("队列的大小是" + queue.size());
 
     }
 }
