@@ -8,7 +8,7 @@ import java.util.Arrays;
  * description:希尔排序(缩小增量插入排序)，直接插入排序的改良，每次排序根据增量d分成d组，
  * 然后分别进行插入排序，排序完成增量的d变成原来的一半，知道增量d变为1
  */
-public class ShellSort {
+public class ShellInsertSort {
 
 	static int[] arr = { 5, 8, 11, 0, 4, 3, 45, 33, 96, 50, 23, 12, 21, 44 };
 	static int count;

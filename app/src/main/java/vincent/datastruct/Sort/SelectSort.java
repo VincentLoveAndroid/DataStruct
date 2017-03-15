@@ -8,7 +8,7 @@ import java.util.Arrays;
  * description:选择排序，从第一个开始，和后面的元素逐一比较，每一趟筛选出最大或者最小值
  */
 
-public class ExchangeSort {
+public class SelectSort {
 
     static int[] arr = {5, 8, 11, 0, 4, 3, 45, 33, 96, 50, 23, 12, 21, 44};
     static int count;//记录遍历次数
