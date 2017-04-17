@@ -19,7 +19,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     private transient int size;//实际table数组被占用的大小
 
     public HashMap() {
-        this(16, 0.75f);//默认初始容量为16,加载因子为0.75
+        this(4, 0.75f);//默认初始容量为4,加载因子为0.75
     }
 
     public HashMap(int initialCapacity, float loadFactor) {
@@ -28,7 +28,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         if (initialCapacity < 0) {
             throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
         }
-        //加载因子最大为1^30
+        //加载因子最大为2^30
         if (initialCapacity > MAXIMUM_CAPACITY) {
             initialCapacity = MAXIMUM_CAPACITY;
         }
@@ -46,13 +46,13 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     }
 
     static class Entry<K, V> implements Map.Entry<K, V> {
-        K Key;
+        K key;
         V value;
         Entry<K, V> next;//指向下一个Entry,链表
         int hash;
 
         public Entry(K key, V value, Entry<K, V> next, int hash) {
-            Key = key;
+            this.key = key;
             this.value = value;
             this.next = next;
             this.hash = hash;
@@ -60,12 +60,12 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
 
         @Override
         public K getKey() {
-            return null;
+            return key;
         }
 
         @Override
         public V getValue() {
-            return null;
+            return value;
         }
 
         @Override
@@ -101,7 +101,14 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
 
     @Override
     public V get(Object key) {
-        return super.get(key);
+        int hash = hash(key.hashCode());
+        int index = indexFor(hash, table.length);
+        for (Entry<K, V> e = table[index]; e != null; e = e.next) {
+            if (e.getKey() == key) {
+                return (V) e.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -114,7 +121,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         //根据key的hashcode的hash值，和table的长度，找到所在table的位置
         int i = indexFor(hash, table.length);
         for (Entry<K, V> entry = table[i]; entry != null; entry = entry.next) {
-            if (entry.Key == key) {
+            if (entry.key == key) {
                 V oldValue = entry.value;
                 entry.value = value;
                 return oldValue;
@@ -137,7 +144,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     private V putForNullKey(V value) {
         //遍历table[0]的hash桶上的所有Entry,若果存在key为null的Entry，则替换旧值并返回
         for (Entry<K, V> entry = table[0]; entry != null; entry = entry.next) {
-            if (entry.Key == null) {
+            if (entry.key == null) {
                 V oldValue = entry.value;
                 entry.value = value;
                 return oldValue;
@@ -150,13 +157,11 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     void addEntry(int hash, K key, V value, int bucketIndex) {
         //Entry的大小达到极限值，进行扩容
         if (size >= threshold && table[bucketIndex] != null) {
-            resize(2 * table.length);
+            resize(table.length << 1);
             //重新查找桶的下标值
             bucketIndex = indexFor(hash, table.length);
         }
         createEntry(hash, key, value, bucketIndex);
-
-        size++;
     }
 
     /**
@@ -166,12 +171,15 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         Entry newTable[] = new Entry[capacity];
         for (Entry<K, V> e : table) {
             while (e != null) {
-                int hash = e.hash;
-                int i = indexFor(hash, newTable.length);
+                Entry<K, V> next = e.next;
+                int i = indexFor(e.hash, newTable.length);
+                e.next = newTable[i];
                 newTable[i] = e;
+                e = next;
             }
         }
-
+        table = newTable;
+        System.out.println("扩容咯 " + table.length);
     }
 
     void createEntry(int hash, K key, V value, int bucketIndex) {
@@ -180,6 +188,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         //让新插入的元素位于链头
         table[bucketIndex] = new Entry<>(key, value, entry, hash);
         size++;
+        System.out.println("size " + size + " bucketIndex " + bucketIndex + " key " + key + " value " + value);
     }
 
     @Override
