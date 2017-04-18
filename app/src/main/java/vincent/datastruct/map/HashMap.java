@@ -59,6 +59,16 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         }
 
         @Override
+        public String toString() {
+            return "Entry{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    ", next=" + next +
+                    ", hash=" + hash +
+                    '}';
+        }
+
+        @Override
         public K getKey() {
             return key;
         }
@@ -104,8 +114,9 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         int hash = hash(key.hashCode());
         int index = indexFor(hash, table.length);
         for (Entry<K, V> e = table[index]; e != null; e = e.next) {
-            if (e.getKey() == key) {
-                return (V) e.getValue();
+            System.out.println("e.getKey" + e.getKey() + " key" + key);
+            if (e.getKey() == key || (e.getKey().hashCode() == key.hashCode()) && e.getKey().equals(key)) {
+                return e.value;
             }
         }
         return null;
@@ -156,11 +167,11 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
 
     void addEntry(int hash, K key, V value, int bucketIndex) {
         //Entry的大小达到极限值，进行扩容
-        if (size >= threshold && table[bucketIndex] != null) {
-            resize(table.length << 1);
-            //重新查找桶的下标值
-            bucketIndex = indexFor(hash, table.length);
-        }
+//        if (size >= threshold && table[bucketIndex] != null) {
+//            resize(table.length << 1);
+//            //重新查找桶的下标值
+//            bucketIndex = indexFor(hash, table.length);
+//        }
         createEntry(hash, key, value, bucketIndex);
     }
 
@@ -168,7 +179,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
      * 重点理解！扩容,扩容后元素所在的hash桶位置也应该有所改变
      */
     void resize(int capacity) {
-        Entry newTable[] = new Entry[capacity];
+        Entry<K, V> newTable[] = new Entry[capacity];
         for (Entry<K, V> e : table) {
             while (e != null) {
                 Entry<K, V> next = e.next;
@@ -186,9 +197,14 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
         //得到目前在链头的Entry
         Entry<K, V> entry = table[bucketIndex];
         //让新插入的元素位于链头
-        table[bucketIndex] = new Entry<>(key, value, entry, hash);
+        Entry<K, V> kvEntry = new Entry<>(key, value, entry, hash);
+        table[bucketIndex] = kvEntry;
         size++;
-        System.out.println("size " + size + " bucketIndex " + bucketIndex + " key " + key + " value " + value);
+        if (entry != null) {
+            System.out.println("碰撞了" + "size " + size + " bucketIndex " + bucketIndex + " key " + key + " value " + value);
+        } else {
+//            System.out.println("size " + size + " bucketIndex " + bucketIndex + " key " + key + " value " + value);
+        }
     }
 
     @Override

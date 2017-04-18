@@ -19,10 +19,10 @@ public class Test {
 //
 //        }
         HashMap hashMap = new HashMap();
-        for (int i = 0; i < 150; i++) {
+        for (int i = 1; i < 200; i++) {
             hashMap.put(i, i);
         }
-        for (int i = 0; i < 150; i++) {
+        for (int i = 1; i < 200; i++) {
             System.out.println(hashMap.get(i));
         }
     }
