@@ -1,104 +1,87 @@
 package vincent.datastruct.tree;
 
-import org.w3c.dom.NodeList;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 /**
- * Created by vincent on 2017/3/2.
+ * Created by vincent on 2017/4/20.
  * email-address:674928145@qq.com
- * description:java实现二叉树及三种遍历
+ * description:构建普通二叉树并进行遍历
  */
 
 public class BinTree {
 
-    private static int[] arr = {2, 15, 3, 5, 7, 10, 11};
-    private static List<Node> nodeList;
+    private static Node root;
 
-    private static class Node {
-        int data;
+    static class Node {
         Node leftChild;
         Node rightChild;
+        String data;
 
-        Node(int data) {
-            leftChild = null;
-            rightChild = null;
+        public Node(String data) {
             this.data = data;
         }
     }
 
     /**
-     * 根据数组的顺序，构建二叉树
+     * *   A
+     * * B    C
+     * D     E  F
      */
-    private static void createBinTree() {
-        nodeList = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-            nodeList.add(new Node(arr[i]));
-        }
-        for (int parentIndex = 0; parentIndex < arr.length / 2 - 1; parentIndex++) {
-            //构建左孩子
-            nodeList.get(parentIndex).leftChild = nodeList.get(2 * parentIndex + 1);
-            //构建右孩子
-            nodeList.get(parentIndex).rightChild = nodeList.get(2 * parentIndex + 2);
-        }
-        //最后一个父节点可能没有右孩子，单独处理
-        int lastParentIndex = arr.length / 2 - 1;
-        nodeList.get(lastParentIndex).leftChild = nodeList.get(2 * lastParentIndex + 1);
-
-        //如果元素个数为奇数，有右孩子
-        if (arr.length / 2 > 0) {
-            nodeList.get(lastParentIndex).rightChild = nodeList.get(2 * lastParentIndex + 2);
-        }
+    static void createBinTree() {
+        root = new Node("A");
+        Node nodeB = new Node("B");
+        root.leftChild = nodeB;
+        Node nodeC = new Node("C");
+        root.rightChild = nodeC;
+        nodeB.leftChild = new Node("D");
+        nodeC.leftChild = new Node("E");
+        nodeC.rightChild = new Node("F");
     }
 
     /**
-     * 前序遍历
+     *
      */
-    private static void preOrderTraverse(Node node) {
-        if (node == null) {
-            return;
-        }
-        System.out.print(node.data + " ");
-        preOrderTraverse(node.leftChild);
-        preOrderTraverse(node.rightChild);
+
+    static void preOrder(Node node) {
+        if (node == null) return;
+        System.out.println("preOrder:" + node.data);
+        preOrder(node.leftChild);
+        preOrder(node.rightChild);
     }
 
-    /**
-     * 中序遍历
-     */
-    private static void inOrderTraverse(Node node) {
-        if (node == null) {
-            return;
-        }
-        inOrderTraverse(node.leftChild);
-        System.out.print(node.data + " ");
-        inOrderTraverse(node.rightChild);
-
+    static void inOrder(Node node) {
+        if (node == null) return;
+        inOrder(node.leftChild);
+        System.out.println("inOrder:" + node.data);
+        inOrder(node.rightChild);
     }
 
-    /**
-     * 后序遍历
-     */
-    private static void postOrderTraverse(Node node) {
-        if (node == null) {
-            return;
-        }
-        postOrderTraverse(node.leftChild);
-        postOrderTraverse(node.rightChild);
-        System.out.print(node.data + " ");
+    static void postOrder(Node node) {
+        if (node == null) return;
+        postOrder(node.leftChild);
+        postOrder(node.rightChild);
+        System.out.println("inOrder:" + node.data);
     }
 
-    public static void main(String[] arg0) {
+    public static void main(String arg[]) {
         createBinTree();
-        Node root = nodeList.get(0);
-        System.out.println("前序遍历：");
-        preOrderTraverse(root);
-        System.out.println("");
-        System.out.println("中序遍历:");
-        inOrderTraverse(root);
-        System.out.println("");
-        System.out.println("后序遍历：");
-        postOrderTraverse(root);
+        preOrder(root);
+        inOrder(root);
+        postOrder(root);
+        nonPre(root);
+    }
+
+    static void nonPre(Node node) {
+        if (node == null) return;
+        Stack<Node> stack = new Stack();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node popNode = stack.pop();
+            System.out.println("nonPre:" + popNode.data);
+            if (popNode.rightChild != null)
+                stack.push(popNode.rightChild);
+            if (popNode.leftChild != null)
+                stack.push(popNode.leftChild);
+        }
     }
 }
