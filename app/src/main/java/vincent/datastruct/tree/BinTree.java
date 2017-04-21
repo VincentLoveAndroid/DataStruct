@@ -39,8 +39,38 @@ public class BinTree {
     }
 
     /**
-     *
+     * 根据前序遍历结果来构建二叉树
+     * **     A
+     * **  B     C
+     * * #  D   #  E
+     * <p>
+     * 前序遍历：AB#D##C#E##
      */
+
+
+    static Node createBinTreeByPreOrder() {
+        String s = new String("AB#D##C#E##");
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            Node node;
+            node = new Node(chars[i] + "");
+            if (i == 0) {
+                root = node;
+            } else {
+                if (chars[i] == '#') {
+                    node = null;
+                }
+            }
+            if (node != null) {
+                node.leftChild = createBinTreeByPreOrder();
+                node.rightChild = createBinTreeByPreOrder();
+            }
+
+        }
+        return null;
+
+    }
+
 
     static void preOrder(Node node) {
         if (node == null) return;
