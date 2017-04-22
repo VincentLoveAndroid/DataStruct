@@ -114,4 +114,21 @@ public class BinTree {
                 stack.push(popNode.leftChild);
         }
     }
+
+    /**
+     * 利用堆栈原理前序遍历二叉树
+     */
+    static void nonIn(Node node) {
+        if (node == null) return;
+        Stack<Node> stack = new Stack();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node popNode = stack.pop();
+            System.out.println("nonPre:" + popNode.data);
+            if (popNode.rightChild != null)
+                stack.push(popNode.rightChild);
+            if (popNode.leftChild != null)
+                stack.push(popNode.leftChild);
+        }
+    }
 }
