@@ -11,7 +11,7 @@ import java.util.List;
  * description:java实现完全二叉树的构建及三种遍历
  */
 
-public class CompleteBinTree {
+public class CompleteBinaryTree {
 
     private static int[] arr = {2, 15, 3, 5, 7, 10, 11};
     private static List<Node> nodeList;

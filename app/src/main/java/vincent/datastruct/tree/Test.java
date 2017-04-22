@@ -1,6 +1,7 @@
 package vincent.datastruct.tree;
 
 import vincent.datastruct.map.HashMap;
+import vincent.datastruct.map.HashMap2;
 
 /**
  * Created by vincent on 2017/2/23.
@@ -11,19 +12,14 @@ import vincent.datastruct.map.HashMap;
 public class Test {
 
     public static void main(String[] arg) {
-//        switch (1) {
-//            case 1:
-//                System.out.println("我是一啊");
-//            default:
-//                System.out.println("哈哈");
-//
-//        }
-        HashMap hashMap = new HashMap();
-        for (int i = 1; i < 200; i++) {
-            hashMap.put(i, i);
+        HashMap2<Integer, Integer> map = new HashMap2<>();
+        for (int i = 0; i < 1000; i++) {
+            map.put(i, i);
         }
-        for (int i = 1; i < 200; i++) {
-            System.out.println(hashMap.get(i));
+
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(map.get(i));
         }
+
     }
 }

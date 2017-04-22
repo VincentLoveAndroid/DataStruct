@@ -8,7 +8,7 @@ import java.util.Stack;
  * description:构建普通二叉树并进行遍历
  */
 
-public class BinTree {
+public class BinaryTree {
 
     private static Node root;
 
