@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DataStruct</string>
+    <string name="title_activity_handler">HandlerActivity</string>
 </resources>

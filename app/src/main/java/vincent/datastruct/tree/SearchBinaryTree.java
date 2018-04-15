@@ -6,11 +6,18 @@ import java.util.List;
 /**
  * Created by vincent on 2017/4/22.
  * email-address:674928145@qq.com
- * description:查找二叉树,它或者是一棵空树，或者是具有下列性质的二叉树： 若它的左子树不空，
+ * description:二叉搜索树(二叉排序树，二叉查找树),它或者是一棵空树，或者是具有下列性质的二叉树： 若它的左子树不空，
  * 则左子树上所有结点的值均小于它的根结点的值； 若它的右子树不空，则右子树上所有结点的值均
  * 大于它的根结点的值； 它的左、右子树也分别为二叉排序树。
+ * <p>
+ * 理解：为什么也叫二叉查找树，先从哪个节点开始查找？
  */
 
+/**           8
+ *        3       10
+ *    1      6          14
+*        4      7   13
+ */
 public class SearchBinaryTree {
 
     static List<Node> nodeList = new ArrayList<>();
@@ -36,7 +43,7 @@ public class SearchBinaryTree {
     public static void main(String arg[]) {
         initNodeList();
         Node rootNode = createSearchBinaryTree();
-        preOrder(rootNode);
+        inOrder(rootNode);
     }
 
     /**
@@ -74,12 +81,15 @@ public class SearchBinaryTree {
         return rootNode;
     }
 
-
-    private static void preOrder(Node node) {
+    /**
+     * 构建二叉搜索树之后，通过中序遍历，可得到从小到大排序值
+     * @param node
+     */
+    private static void inOrder(Node node) {
         if (node == null) return;
-        System.out.println("preOrder:" + "data:" + node.data);
-        preOrder(node.leftChild);
-        preOrder(node.rightChild);
+        inOrder(node.leftChild);
+        System.out.println("inOrder:" + "data:" + node.data);
+        inOrder(node.rightChild);
     }
 
 }

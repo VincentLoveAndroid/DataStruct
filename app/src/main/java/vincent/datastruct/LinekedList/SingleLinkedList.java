@@ -6,7 +6,7 @@ package vincent.datastruct.LinekedList;
  * description:单链表
  */
 
-public class SingleLinkedList<E> {
+public class  SingleLinkedList<E> {
     /**
      * transient 关键词修饰的变量，防止被序列化，持久化
      */
