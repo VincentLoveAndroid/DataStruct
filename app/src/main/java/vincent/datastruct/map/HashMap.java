@@ -36,7 +36,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
             throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor);
         }
         int capacity = 1;//capacity的值就是table数组的大小,即hash桶的个数
-        //规范容量为2的n次方，便于与hash值进行与运算的时候均匀分布散列数据和充分利用空间
+        //规范数组容量为2的n次方，便于与hash值进行与运算的时候均匀分布散列数据和充分利用空间
         while (capacity < initialCapacity) {
             capacity = capacity << 1;
         }
@@ -176,16 +176,24 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     }
 
     /**
-     * 重点理解！扩容,扩容后元素所在的hash桶位置也应该有所改变
+     * 重点理解！扩容,扩容后元素所在的hash桶位置也应该有所改变,
+     * 原本在同一个hash桶的元素，扩容后，有可能不在同一个hash桶了，
+     * 因此，需要遍历每一个hash桶的元素，重新散列元素
      */
     void resize(int capacity) {
         Entry<K, V> newTable[] = new Entry[capacity];
         for (Entry<K, V> e : table) {
+            //遍历每一个hash桶上的链表，重新计算索引位置
             while (e != null) {
+                //暂存当前元素下一个元素
                 Entry<K, V> next = e.next;
+                //重新计算索引位置
                 int i = indexFor(e.hash, newTable.length);
+                //从表头插入
                 e.next = newTable[i];
                 newTable[i] = e;
+
+                //指针移向下一个元素
                 e = next;
             }
         }

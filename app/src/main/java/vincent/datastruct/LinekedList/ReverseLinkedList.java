@@ -11,8 +11,6 @@ package vincent.datastruct.LinekedList;
 public class ReverseLinkedList {
 
     private Node head;//保存头节点指针
-    private Node current;//指向当前节点
-    private Node currentNext;//指向当前节点的下一个节点
 
     static class Node<E> {
         E data;
@@ -28,25 +26,37 @@ public class ReverseLinkedList {
         Node<Integer> node1 = new Node<>(1);
         Node<Integer> node2 = new Node<>(2);
         Node<Integer> node3 = new Node<>(3);
+        Node<Integer> node4 = new Node<>(4);
 
         node0.next = node1;
         node1.next = node2;
         node2.next = node3;
+        node2.next = node4;
 
         head = node0;
     }
 
+    /**
+     * 主要有三个指针，(必须同时有pre指针和next指针，不然current断链重连会找不到原来current的next指针)
+     * 当前节点的上一个节点pre，当前节点current，当前节点下一个节点next指针，
+     * 每次循环，实现一个节点的断开，将当前节点链接pre节点。移动pre,current节点指针，继续循环
+     *
+     * 时间复杂度：
+     * 空间复杂度：
+     */
     private void reverseLinkedList() {
-        current = head;
+        Node pre = null;//头结点开始的前一个节点为null
+        Node current = head;//当前节点从头结点开始
+        Node next = null;//当前节点的下一个节点
+        //每次循环，实现一个节点的断开，将当前节点链接pre节点。移动pre,current节点指针，继续循环
         while (current != null) {
-            if (current.next != null) {
-                currentNext = current.next;
-            } else {
-                head = current;
-            }
-            current = currentNext;
-            currentNext = current.next;
+            next = current.next;//得到当前节点的下一个节点，暂存
+            current.next = pre;//原链断开，当前节点指向pre节点
+            pre = current;//移动pre指针到当前节点
+            current = next;//移动当前节点指针到next节点
         }
+        //头结点指向最后一个节点，方便从头结点开始遍历
+        head = pre;
     }
 
     private void print() {
@@ -55,6 +65,7 @@ public class ReverseLinkedList {
             System.out.println(current.data);
             current = current.next;
         }
+        System.out.println(head);
     }
 
     public static void main(String arg0[]) {
@@ -66,102 +77,22 @@ public class ReverseLinkedList {
         list.print();
     }
 
-//    将原链表: 
-//            0->1->2->3 
-//    反转为新链表: 
-//            3->2->1->0 
-//    反转链表的一般思路是使用三个指针。其中，一个指针为当前节点，一个指针指向当前节点的下一个节点，另外一个节点则指向新链表表头从而保存结果。
-//    public class Reversed_MyLinkedList {
-//
-//        public static Node reversed_linkedlist() {
-//            MyLinkedList list = new MyLinkedList();
-//            Node head = list.init();
-//
-//            if(head == null || head.next == null) {
-//                return head;
-//            }
-//
-//            //使用三个节指针
-//            Node current = head;
-//            Node newHead = null;
-//            Node next = null;
-//
-//            while(current != null) {
-//                //先将当前节点的下个节点保存
-//                next = current.next;
-//
-//                current.next = newHead; //将原来的链表断链,将current的下一个结点指向新链表的头结点
-//                newHead = current; //将current设为新表头
-//
-//                current = next; //将之前保存的next设为下一个节点
-//            }
-//            return newHead;
-//        }
-//
-//        public static void main(String[] args) {
-//            MyLinkedList list = new MyLinkedList();
-//            Node head = reversed_linkedlist();
-//            System.out.println("After reversed, the list is: ");
-//            list.print(head);
-//        }
-//    }
-//    其中MyLinkedList,Node类的代码见http://blog.csdn.net/bitcarmanlee/article/details/52155181。
-//            18-23行的逻辑描述如下：假设原链表有三个节点l,m,n，指向关系为l->m->n。当遍历到m节点时，此时有current=m，newHead=l。先用next指针保存n节点，然后将current.next指针指向newHead，此时m的next指针变为newHead即为l。接着，将newHead指针设为current，即此时newHead指针变为m。最后，将current指针变为先前保存的next指针即为n。等到下一次循环的时候，通过current.next = newHead这句将节点n的next指针设为m。通过整个过程，三个节点的指向关系就变为了n->m->l。
-//    将上面的代码run起来
-//    After reversed, the list is:
-//            9 8 7 6 5 4 3 2 1 0
-//            1
-//            2
-//            2.从尾到头倒序遍历链表
-//
-//    方法1：采用递归的方式 
-//    方法2：对于这种倒序的要求，我们很自然想到”后进先出”，很自然就想到用栈这种数据结构去模拟整个倒序遍历的过程。
-//    直接上代码
-//import java.util.Stack;
-//
-//    public class Reverse_Travel_LinkedList {
-//
-//        //递归
-//        public static void rev_tra_recur(Node head) {
-//            if(head == null) {
-//                return;
-//            }
-//            rev_tra_recur(head.next);
-//            System.out.print(head.data + " ");
-//        }
-//
-//        //非递归,用栈模拟
-//        public static void rev_tra_no_recur(Node head) {
-//            if(head == null) {
-//                return;
-//            }
-//
-//            Stack<Node> stack = new Stack<Node>();
-//            Node current = head;
-//
-//            while(current != null) {
-//                stack.push(current);
-//                current = current.next;
-//            }
-//
-//            while(!stack.isEmpty()) {
-//                System.out.print(stack.pop().data + " ");
-//            }
-//
-//        }
-//
-//        public static void main(String[] args) {
-//            MyLinkedList list = new MyLinkedList();
-//            Node head = list.init();
-//
-//            rev_tra_recur(head);
-//            System.out.println();
-//            rev_tra_no_recur(head);
-//        }
-//    }
-//    将代码run起来
-//9 8 7 6 5 4 3 2 1 0
-//        9 8 7 6 5 4 3 2 1 0
-//    由此可见，两种方法都能很好地满足我们的要求。 
-//    递归的好处是代码量少，简介明了。但是所有递归都有的毛病就是当递归次数太多的时候，会导致方法调用的层级很深，最终导致内存不够栈溢出。所以如果从代码的稳定性考虑的话，非递归的方式显然要更安全一些。
+    private void test() {
+        //三个指针，记录当前节点current节点的前一个节点，后一个节点
+        Node pre = null;
+        Node current = head;
+        Node next = null;
+        //每次循环，实现一个节点的断开，将当前节点链接pre节点。移动pre,current节点指针，继续循环
+        while (current != null) {
+            //记录下一个节点
+            next = current.next;
+            //断链重连到上一个节点
+            current.next = pre;
+            //指针右移
+            pre = current;
+            current = next;
+        }
+        //将头结点指向最后一个节点，方便遍历
+        head = pre;
+    }
 }

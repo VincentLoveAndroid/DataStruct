@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import vincent.datastruct.R;
-import vincent.other.HandlerSth;
+import vincent.threadSth.HandlerSth;
 
 public class HandlerActivity extends Activity {
 

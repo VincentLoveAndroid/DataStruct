@@ -37,6 +37,6 @@ public class HanNota {
 
 
     public static void main(String arg[]) {
-        move(4,"A","B","C");
+        move(22,"A","B","C");
     }
 }

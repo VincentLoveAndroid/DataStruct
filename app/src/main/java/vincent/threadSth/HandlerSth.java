@@ -1,4 +1,4 @@
-package vincent.other;
+package vincent.threadSth;
 
 import android.os.Build;
 import android.os.Handler;

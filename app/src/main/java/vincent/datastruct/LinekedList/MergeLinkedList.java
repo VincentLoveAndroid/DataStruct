@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 public class MergeLinkedList {
 
 
-    static class ListNode{
+    static class ListNode {
         ListNode next;
         int val;
 
@@ -21,9 +21,39 @@ public class MergeLinkedList {
         }
     }
 
-    public static void main(String arg0[]){
+    public static void main(String arg0[]) {
+
+        ListNode node1_1 = new ListNode(1);
+        ListNode node1_2 = new ListNode(10);
+        ListNode node1_3 = new ListNode(11);
+        ListNode node1_4 = new ListNode(12);
+
+        node1_1.next = node1_2;
+        node1_2.next = node1_3;
+        node1_3.next = node1_4;
+
+        ListNode node2_1 = new ListNode(2);
+        ListNode node2_2 = new ListNode(6);
+        ListNode node2_3 = new ListNode(8);
+        ListNode node2_4 = new ListNode(9);
+
+        node2_1.next = node2_2;
+        node2_2.next = node2_3;
+        node2_3.next = node2_4;
+
+
+        ListNode newListNode = mergeTwoLists(node1_1, node2_1);
+
+        ListNode current = newListNode;
+
+        while (current != null) {
+            System.out.println(current.val);
+            current = current.next;
+        }
+
 
     }
+
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists == null || lists.length == 0)
             return null;
@@ -71,18 +101,35 @@ public class MergeLinkedList {
         return lists[low];
     }
 
-    // 递归合并链表
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    /**
+     * 递归方式合并两个有序链表
+     */
+//    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+//        ListNode res = null;
+//        if (l1 == null)
+//            return l2;
+//        if (l2 == null)
+//            return l1;
+//        if (l1.val <= l2.val) {
+//            l1.next = mergeTwoLists(l1.next, l2);
+//            res = l1;
+//        } else {
+//            l2.next = mergeTwoLists(l1, l2.next);
+//            res = l2;
+//        }
+//        return res;
+//    }
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode res = null;
-        if (l1 == null)
+        if (l1 == null) {
             return l2;
-        if (l2 == null)
+        }
+        if (l2 == null) {
             return l1;
+        }
         if (l1.val <= l2.val) {
-            res = l1;
             l1.next = mergeTwoLists(l1.next, l2);
-        } else {
-            res = l2;
+        }else{
             l2.next = mergeTwoLists(l1, l2.next);
         }
         return res;

@@ -122,6 +122,7 @@ public class CircleLinkedList<E> {
 
     public static void main(String arg0[]) {
         CircleLinkedList<Integer> circleLinkedList = new CircleLinkedList<>();
+
         circleLinkedList.insert(1);
         circleLinkedList.insert(2);
         circleLinkedList.insert(3);

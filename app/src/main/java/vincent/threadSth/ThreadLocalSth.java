@@ -1,4 +1,4 @@
-package vincent.other;
+package vincent.threadSth;
 
 import java.util.HashMap;
 import java.util.Map;

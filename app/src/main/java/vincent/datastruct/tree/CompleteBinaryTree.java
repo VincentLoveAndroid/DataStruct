@@ -1,7 +1,5 @@
 package vincent.datastruct.tree;
 
-import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
 import java.util.List;
 

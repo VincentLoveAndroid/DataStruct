@@ -17,6 +17,4 @@ public class LazySingleTon {
 
         return lazySingleTon;
     }
-
-
 }
